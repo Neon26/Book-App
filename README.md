@@ -1,17 +1,11 @@
 # React Project for CAE95
 This is a BookStore App built with React.
 
-## Everyday on a different branch:
-This reposity will hold all versions of our React application.<br>
-To see the versions at the end of its respective day:
-* Look at the top left corner underneath the `<>Code` heading
-* You should see a list of branches
-* Choose the branch you want to look at.
 
 ## To clone this repository:
 **From the CLI**
 * Navigate into the folder you where you want to place this application
-* `git clone https://github.com/Neon26/book-app.git`
+* `git clone https://github.com/Neon26/Book-App.git`
 * `cd book-app`
 * now you are inside the project
   * ##### To view a specific branches
