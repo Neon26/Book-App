@@ -8,9 +8,7 @@ This is a BookStore App built with React.
 * `git clone https://github.com/Neon26/Book-App.git`
 * `cd book-app`
 * now you are inside the project
-  * ##### To view a specific branches
-    * `git checkout BRANCH_NAME` [replace BRANCH_NAME with the name of the branch you want to be on]
-    * You can open this branch in VS Code using `code .`
+  
 ## To update your version with a newer version on github
 * `git pull --all`
 

@@ -15,6 +15,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider theme={primaryThemeDark}>
+      {/* <ThemeProvider theme={primaryTheme}> */}
         <AppContextProvider>
             <CssBaseline/>
             <App />
