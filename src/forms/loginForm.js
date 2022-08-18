@@ -36,7 +36,7 @@ export default function LoginForm() {
 
 
   return (
-    <Grid container spacing={1}>
+    <Box sx={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
     <form onSubmit={formik.handleSubmit}>
         <TextField
             id ="email"
@@ -65,6 +65,6 @@ export default function LoginForm() {
         />
         <Button type="submit" sx={{ width:"100%"}}>Login</Button>
     </form>
-    </Grid>
+    </Box>
   )
 }
