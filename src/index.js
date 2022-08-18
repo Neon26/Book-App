@@ -4,23 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CssBaseline } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
-import primaryTheme from './themes/primaryTheme';
-import primaryThemeDark from './themes/primaryThemeDark';
 import { BrowserRouter } from 'react-router-dom';
 import { AppContextProvider } from './context/AppContext';
+import {CustomThemeProvider} from './context/ThemeContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider theme={primaryThemeDark}>
-      {/* <ThemeProvider theme={primaryTheme}> */}
+    <BrowserRouter>      
+      <CustomThemeProvider>
         <AppContextProvider>
             <CssBaseline/>
             <App />
         </AppContextProvider>
-      </ThemeProvider>
+      </CustomThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
