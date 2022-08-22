@@ -1,98 +1,153 @@
-import * as React from 'react';
+import React, { useContext} from 'react';
 import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Book } from '@mui/icons-material';
+import Avatar from '@mui/material/Avatar';
+import useBooks from '../hooks/useBooks';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Card, CardHeader, CircularProgress } from '@mui/material';
+import Error from './Error';
+import { Box } from '@mui/system';
+import Paper from '@mui/material/Paper';
+import { AppContext } from '../context/AppContext';
+import Button from './Button';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-// an instance of a book
-const a_book = {
-    author: 'J.K. Rowling',
-    created_on: 'Mon, 01 Jan 1970 00:00:00 GMT',
-    id: 1,
-    img: 'https://images-na.ssl-images-amazon.com/images/I/51Zymoq7UnL._SX331_BO1,204,203,200_.jpg',
-    pages: 1, 'subject': 'Harry Potter',
-    sumarry: 'The novels chronicle the lives of a young wizard, Harry Potter, and his friends.',
-    title: 'Harry Potter and the Philosopher\'s Stone',
-}
- const ExpandMore = styled((props) => {
-        const { expand, ...other } = props;
-        return <IconButton {...other} />;
-      })(({ theme, expand }) => ({
-        transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-          duration: theme.transitions.duration.shortest,
-        }),
-      }));
+
+
+
+ const Book = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
 
    
       
-export default function RecipeReviewCard(book=a_book) {
-    const [expanded, setExpanded] = React.useState(false);
+export default function MyBook() {
+  // an instance of a book
+const book = {
+    author: 'J.K. Rowling',
+    created_on: 'Mon, 01 Jan 1970 00:00:00 GMT',
+    id: 1,
+    img: 'https://images-na.ssl-images-amazon.com/images/I/51Zymoq7UnL._SX331_BO1,204,203,200_.jpg',
+    pages: 299, 
+    summary: 'The novels chronicle the lives of a young wizard, Harry Potter, and his friends.',
+    title: 'Harry Potter and the Philosopher\'s Stone',
+    category: 'Fiction',
+}
+    
+    const {bookId} = useParams();
+    const {setAlert, addToReadingList, removeFromReadingList, readingList } = useContext(AppContext)  
+    const { error} = useBooks(bookId);
+    const navigate = useNavigate();
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+    
 
-    return (
-        <Card sx={{ maxWidth: 345 }}>
-        <CardHeader
-                     
-            title={Book.title}
-            
-        />
-        {/* display the image of the book */}
-        <CardMedia
-            component="img"
-            height="194"
-            image={Book.img}
-            alt={Book.title}
-        />
-        <CardContent>
-            {/* information about the book */}
-            <Typography variant="body2" color="text.secondary">
-            Author: {Book.author}
-            Genre: {Book.subject}
-            Pages: {Book.pages}
-            </Typography>
-        </CardContent>
-        <CardActions disableSpacing>
-            {/* dont forget to comeback and change the icons */}
-            <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-            </IconButton>
-            {/* dont forget to comeback and change the icons */}
-            <IconButton aria-label="share">
-            <ShareIcon />
-            </IconButton>
-            <ExpandMore
-            expand={expanded}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-            >
-            <ExpandMoreIcon />
-            </ExpandMore>
-        </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-                {/* if they wat more of the summary it will display here */}
-            <Typography paragraph>{book.summary}</Typography>
-                    
-            
-            </CardContent>
-        </Collapse>
-        </Card>
-    );
+    const handleAddToReadingList = () => {
+        addToReadingList(book);
+        setAlert({message: `${book.title} added to reading list`, severity: 'success'})
     }
 
+    const handleRemoveFromReadingList = () => {
+        removeFromReadingList(book);
+        setAlert({message: `${book.title} removed from reading list`, severity: 'success'})
+    }
+
+    
+
+    if (!book) {
+        return (
+            <Box sx={{ display:"flex"}}>
+                <CircularProgress/>
+            </Box>
+        )
+    }
+    if (error){
+        return(
+            <Box sx={{ display:"flex"}}>
+                <Error>{error}</Error>
+            </Box>
+        )
+    }
+
+    return (
+      <>
+        <Button onClick={() => navigate(-1)}>Back</Button>
+        <Box sx={{ flexGrow: 1 }}>
+          <Card sx={{ maxWidth: 345 }}>
+            <CardHeader
+              avatar={
+                <Avatar sx={{ bgcolor: 'red' }} aria-label="recipe">
+                  {book.title[0]}
+                </Avatar>
+              }
+              action={
+                <IconButton aria-label="settings"  >
+                  {readingList.find((readingListBook) => readingListBook.id === book.id) ? (
+                    <RemoveCircleIcon onClick={handleRemoveFromReadingList}/>
+                  ) : (
+                    <AddCircleIcon  onClick={handleAddToReadingList}/>
+                  )}
+                </IconButton>
+              }
+              title={book.title}
+              subheader={book.author}
+            />
+            <Book>
+              <img src={book.img} alt={book.title} />
+            </Book>
+            <Typography variant="body2" color="text.secondary">
+              {book.summary}
+            </Typography>
+          </Card>
+        </Box>
+      
+        
+        <Grid container spacing={1} sx={{m:1, pr:2, border:'1px solid', borderRadius:1}}>
+        <Grid book sm={12} xs={12}  md={12}>
+          <Book sx={{display:"flex", justifyContent: 'center'}}>
+             <Avatar src={book.img} alt={book.title} sx={{height:'30%', width:'30%'}} variant="rounded"/>
+          </Book>
+        </Grid>
+        <Grid book sm={12} xs={12}  md={12}>
+          <Book sx={{height:'100%', alignContent: 'center'}}>
+              <Typography variant="subtitle1"><strong>Book Title:</strong></Typography>
+              <Typography variant="body1">{book.title}</Typography>
+          </Book>
+        </Grid>        
+        <Grid book sm={6} xs={6} md={6}>
+          <Book sx={{height:'100%'}}>
+            <Typography variant="subtitle1"><strong>Book ID:</strong></Typography>
+            <Typography variant="body1">{book.id}</Typography>
+          </Book>
+        </Grid>
+        <Grid book sm={6} xs={6} md={6}>
+          <Book sx={{height:'100%'}}>
+            <Typography variant="subtitle1"><strong>Book Pages:</strong></Typography>
+            <Typography variant="body1">{book.pages}</Typography>
+          </Book>
+        </Grid>
+        <Grid book sm={12} xs={12}  md={12}>
+        <Book sx={{height:'100%'}}>
+            <Typography variant="subtitle1"><strong>Summary:</strong></Typography>
+            <Typography variant="body1">{book.summary}</Typography>
+          </Book>
+        </Grid>
+        <Grid book sm={12} xs={12}  md={12}>
+        <Book sx={{height:'100%'}}>
+            <Typography variant="subtitle1"><strong>Category:</strong></Typography>
+            <Typography variant="body1">{book.category}</Typography>
+          </Book>
+        </Grid>
+
+      </Grid>
+      </>
+
+  );
+}

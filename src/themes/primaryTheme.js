@@ -19,6 +19,7 @@ export const themeOptions= {
     error: {
       main: '#08415c',
     },
+    
   },
   
 };

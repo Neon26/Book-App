@@ -1,12 +1,13 @@
-import React from 'react'
+import { useState} from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import TextField from '@mui/material/TextField'
 import Button from '../components/Button'
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
+import useLogin from '../hooks/useLogin'
+import Error from '../components/Error'
+
+
 
 
 
@@ -24,8 +25,15 @@ const initialValues={
 
 
 export default function LoginForm() {
+    
+    const [loginCreds, setLoginCreds] = useState(initialValues)
+    const [error, setError] = useState('')
+    useLogin(loginCreds, setLoginCreds, setError)
+    
+
     const handleSubmit=(values)=>{
         console.log(values)
+        setLoginCreds(values)
     }
 
     const formik = useFormik({
@@ -33,6 +41,7 @@ export default function LoginForm() {
         validationSchema: FormSchema,
         onSubmit: (values)=> handleSubmit(values)
     })
+    
     
 
 
@@ -65,6 +74,7 @@ export default function LoginForm() {
             helperText={formik.touched.password && formik.errors.password}
         />
         <Button type="submit" sx={{ width:"100%"}}>Login</Button>
+        <Error error={error}/>
     </form>
     </Box>
   )

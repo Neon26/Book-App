@@ -19,12 +19,14 @@ import { Link } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
 import BookOnlineTwoToneIcon from '@mui/icons-material/BookOnlineTwoTone';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Avatar, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem'; 
 import { AppContext } from '../context/AppContext';
+import LibraryBooksSharpIcon from '@mui/icons-material/LibraryBooksSharp';
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 
 
 
@@ -120,6 +122,8 @@ export default function NavBar({children}) {
     setOpen(false);
   };
 
+
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -205,8 +209,10 @@ export default function NavBar({children}) {
           <List>
             {[{label:'Register', path:'/register', icon:<AppRegistrationOutlinedIcon sx={{color:'white'}}/>},
             {label:'Login', path:'/login', icon:<LoginIcon sx={{color:'white'}}/>},
+            {label:'Create Book', path:'/create', icon:<AddBoxOutlinedIcon sx={{color:'white'}}/>},
             {label:'Book', path:'/book', icon:<BookOnlineTwoToneIcon  sx={{color:'white'}}/>},
-            {label:'Logout', path:'/logout', icon:<LockOutlinedIcon  sx={{color:'white'}}/>}
+            {label:'Browse', path:'/browse', icon:<ExploreOutlinedIcon sx={{color:'white'}}/>},
+            {label:'Reading List', path:'/readinglist', icon:<LibraryBooksSharpIcon  sx={{color:'white'}}/>},                       
           ].map((navItem, index) => (
               <ListItem key={navItem.label} disablePadding sx={{ display: 'block', ml:2, mb:2 }}>
                 <div style={{display:"flex", marginTop:"20px"}}>

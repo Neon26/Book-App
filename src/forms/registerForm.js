@@ -121,25 +121,7 @@ export default function RegisterForm({user}) {
                 error = {formik.touched.confirm_password && Boolean(formik.errors.confirm_password)}
                 helperText={formik.touched.confirm_password && formik.errors.confirm_password}
             />
-            <Box sx={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-                {user?
-                    <Button onClick={()=>handleDelete(formik.values)}>Delete</Button>
-                    :
-                    <TextField
-                        id ="confirm_password"
-                        name="confirm_password"
-                        type="password"
-                        fullWidth
-                        sx={{mb: 2, mt:2}}
-                        label="Confirm Password"
-                        placeholder="Confirm Password"
-                        value={formik.values.confirm_password}
-                        onChange={formik.handleChange}
-                        error = {formik.touched.confirm_password && Boolean(formik.errors.confirm_password)}
-                        helperText={formik.touched.confirm_password && formik.errors.confirm_password}
-                    />
-                }                
-            </Box>
+            
             <Button type="submit">{user?'Update':'Register'}</Button>
         </Box>
     </form>
