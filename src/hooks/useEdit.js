@@ -1,36 +1,35 @@
 import {useEffect, useContext} from 'react'
 import {CancelToken} from 'apisauce'
-import apiBook from '../api/apiBook'
 import {useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
+import { editUser } from '../api/clientTokenAuth'
 
-export default function useEdit(id, obj) {
-
+export default function useEdit(userEdit, setUserEdit){
     const {user, setAlert} = useContext(AppContext)
     const navigate = useNavigate()
 
     useEffect(
         ()=>{
-            let response
             const source = CancelToken.source()
-            const apiCalls = async()=>{
-                if(obj.title && obj.author && obj.genre && obj.description && obj.pages){
-                    response = await apiBook.update(id, obj, user?.token, source.token)
+            if(userEdit.email && userEdit.password){
+                const editUser = async()=>{
+                    const response = await editUser(userEdit, user?.token, source.token)
                     console.log(response)
-                if(response.book){
-                        setAlert({msg:'Your book was updated',cat:'success'})
-                        navigate('/book/'+response.book.id)
-                }if(!response?.error){
-                    setAlert({msg:response.error,cat:'error'})
-                    navigate('/')
+                    if(response.user){
+                        setAlert({msg:'Your user was edited',cat:'success'})
+                        navigate('/profile')
+                    }if(!response?.error){
+                        setAlert({msg:response.error,cat:'error'})
+                        navigate('/')
+                    }else{
+                        console.log(response.error)
+                    }
                 }
-                }
+                editUser()
             }
-            if(obj){
-                apiCalls()
-            }
-    return (()=>{source.cancel()})
-        },[id, obj, user.token, setAlert, navigate]
+            return (()=>{source.cancel()})
+        },
+        [userEdit, user.token, setAlert, navigate]
     )
 }
 

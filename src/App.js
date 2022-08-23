@@ -10,7 +10,6 @@ import {Route, Router, Routes} from 'react-router-dom';
 import { useContext } from 'react';
 import { AppContext } from './context/AppContext';
 import Snackbar from './components/Snackbar';
-import CreateBook from './views/CreateBook';
 import BrowseBooks from './views/BrowseBooks';
 
 
@@ -27,8 +26,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginForm />} />
               <Route path="/register" element={<RegisterForm />} />
-              <Route path="/book" element={<Book />} />
-              <Route path="/create" element={<CreateBook />} />
+              <Route path="/book/:bookId" element={<Book />} />              
               <Route path="/browse" element={<BrowseBooks />} />
               <Route path="/readinglist" element={<ReadingListPage />} />
               <Route path="/logout" element={<LogOut />} />

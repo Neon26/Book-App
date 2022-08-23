@@ -1,38 +1,31 @@
+
 const readingListActions={
-    addToReadingList:'addToReadingList',
-    removeFromReadingList:'removeFromReadingList',
-    removeAllFromReadinglist:'removeAllFromReadingli',
-    clearReadingList:'clearReadingList',
-    addBulkToReadingList:'addBulkToReadingLi'
+    addToReadingList: "addToReadingList",
+    removeFromReadingList: "removeFromReadingList",
+    clearReadingList: "clearReadingList",
 }
 
-function readingListReducer(list=[], {type, book}) {
-    switch (type) {
+function readingListReducer(readingList=[], {type,book}){
+    switch(type){
         case readingListActions.addToReadingList:
-            return [...list, book]
+            return [...readingList, book];
         case readingListActions.removeFromReadingList:
-            let newList=list.slice()
-            for (let listBook of newList){
-                if (listBook.id === book.id){
-                    newList.splice(newList.indexOf(listBook), 1)
-                    return newList
+            let newList = readingList.slice();
+            for ( let thisBook of newList){
+                if(thisBook.id===book.id){
+                    newList.splice(newList.indexOf(thisBook),1);
+                    return newList;
                 }
             }
-            return newList
-        case readingListActions.removeAllFromReadinglist:
-            return list.filter((item) => item.readingList === false)
         case readingListActions.clearReadingList:
-            return []
-        case readingListActions.addBulkToReadingList:
-            return list.map((item) => {
-                if (item.id === book.id) {
-                    return {...item, readingList: true}
-                }
-                return item
-            })
+            return [];
         default:
-            throw new Error('I am not sure what you are trying to do')
+            throw new Error("Invalid action type");
+            
     }
 }
 
-export {readingListActions, readingListReducer}
+export{
+    readingListActions,
+    readingListReducer
+}

@@ -13,54 +13,43 @@ export const AppContextProvider = ({ children }) => {
     }
     
     const [alert, setAlert] = useState({});
+    const [readingList, dispatch] = useReducer(readingListReducer, []);
     const [user, _setUser] = useState(getUserFormLocalStorage());
    
-    const setUserLocalStorage = (user) => {
-        localStorage.setItem("user", JSON.stringify(user));
+    const setUser=(user)=>{
         _setUser(user);
+        localStorage.setItem("user", JSON.stringify(user));
     }
 
-    const getBookFromLocalStorage= ()=> {
-        let b=localStorage.getItem("book");
-        if(b){
-            return JSON.parse(b);
-        }
-    }
+  
 
-    const [readingList, setReadingList] = useState([]);
-    const [book, setBook] = useState(getBookFromLocalStorage());
-
-    const [readingListState, dispatch] = useReducer(readingListReducer, readingList);
-
-    useEffect(() => {
-        localStorage.setItem("readingList", JSON.stringify(readingListState));
-    }, [readingListState]);
     
 
 
     const values={
+        user,
+        setUser,
         alert,
         setAlert,
-        user,
-        setUser: setUserLocalStorage,
-        setUserLocalStorage,
         readingList,
-        setReadingList,
-        book,
-        setBook,
-        addToReadingList: (book) => 
-        dispatch({type: readingListActions.addToReadingList, book}),
-        addbulkToReadingList: (book) =>
-        dispatch({type: readingListActions.addBulkToReadingList, book}),
-        removeFromReadingList: (book) =>
-        dispatch({type: readingListActions.removeFromReadingList, book}),
-        clearReadingList: () =>
-        dispatch({type: readingListActions.clearReadingList})
-
+        addToReadingList:
+            (book) => dispatch({
+                type: readingListActions.addToReadingList,book
+            }),
+        removeFromReadingList:
+            (book) => dispatch({
+                type: readingListActions.removeFromReadingList,book
+            }),
+        clearReadingList:
+            () => dispatch({
+                type: readingListActions.clearReadingList,
+            }),
+        }
+    
 
         
         
-    }
+    
     return (
         <AppContext.Provider value={values}>
             {children}

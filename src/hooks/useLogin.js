@@ -1,7 +1,7 @@
 import React, {useEffect, useContext} from 'react'
 import { AppContext } from '../context/AppContext'
 import { CancelToken } from 'apisauce'
-import { getUser } from '../api/apibasicAuth'
+import { loginUser } from '../api/apiBasicAuth'
 import {useNavigate} from 'react-router-dom'
 
 export default function useLogin(loginCreds, setLoginCreds, setError) {
@@ -13,7 +13,7 @@ export default function useLogin(loginCreds, setLoginCreds, setError) {
             const source = CancelToken.source()
             if(loginCreds.email && loginCreds.password){
                 const login = async()=>{
-                    const response = await getUser(loginCreds.email, loginCreds.password, source.token);
+                    const response = await loginUser(loginCreds.email, loginCreds.password, source.token);
                     console.log(response)
                     if(response.user?.token){
                         console.log('logged in')

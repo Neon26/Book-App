@@ -6,8 +6,7 @@ import MenuItem from '@mui/material/MenuItem'
 import { Typography } from '@mui/material/Typography'
 import BookForm from '../forms/BookForm'
 import useBooks from '../hooks/useBooks'
-import Error
- from './Error'
+import Error from './Error'
 
 // an instance of a book
 // const a_book = {

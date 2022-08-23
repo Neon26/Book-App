@@ -1,4 +1,4 @@
-import apiClient from "./clientBasicAuth"
+import { apiBasicAuth } from "./client.js";
 
 const endpoint_login = '/login';
  
@@ -23,23 +23,4 @@ export const loginUser = async (email, password, cancelToken) =>{
     
 }
 
-export const getUser = async (token, cancelToken) =>{
-    let error;
-    let user;
 
-    const response = await apiBasicAuth(token, cancelToken).get(endpoint_login);
-    if (response.ok){
-        user = response.data
-    }else if (response.status === 401){
-        error = "Invalid username or password"
-    }else{
-        error = "An unexpected Error"
-    }
-
-    return {
-        error,
-        user
-    }
-
-    
-}

@@ -208,9 +208,7 @@ export default function NavBar({children}) {
           <Divider />
           <List>
             {[{label:'Register', path:'/register', icon:<AppRegistrationOutlinedIcon sx={{color:'white'}}/>},
-            {label:'Login', path:'/login', icon:<LoginIcon sx={{color:'white'}}/>},
-            {label:'Create Book', path:'/create', icon:<AddBoxOutlinedIcon sx={{color:'white'}}/>},
-            {label:'Book', path:'/book', icon:<BookOnlineTwoToneIcon  sx={{color:'white'}}/>},
+            {label:'Login', path:'/login', icon:<LoginIcon sx={{color:'white'}}/>},            
             {label:'Browse', path:'/browse', icon:<ExploreOutlinedIcon sx={{color:'white'}}/>},
             {label:'Reading List', path:'/readinglist', icon:<LibraryBooksSharpIcon  sx={{color:'white'}}/>},                       
           ].map((navItem, index) => (

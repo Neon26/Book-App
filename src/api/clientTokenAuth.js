@@ -1,12 +1,26 @@
+import { apiTokenAuth } from "./client.js"
 
-import {create} from 'apisauce';
+const endpoint_user = '/user'
 
-const apiClient = (token, cancelToken) =>create({
-    baseURL: 'https://cae-bootstore.herokuapp.com',
-    headers: {
-    Authorization: 'Bearer ' + token
-    },
-    cancelToken
-})
+export const editUser = async (token, userEdit, cancelToken) =>{
+    let error;
+    
+    const response = await apiTokenAuth(token, cancelToken).put(endpoint_user, userEdit)
+    if (!response.ok){
+        error = "Unexpected Error, please go away"
+    }
+    return{
+        error
+    }
 
-export default apiClient
+}
+
+export const delUser = async (token, cancelToken) =>{
+    let error;
+
+    const response = await apiTokenAuth(token, cancelToken).delete(endpoint_user)
+    if(!response.ok){
+        error = 'Unexpected Error occured User not deleted'
+    }
+    return error
+}

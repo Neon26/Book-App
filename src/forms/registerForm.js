@@ -1,9 +1,13 @@
-import React from 'react'
+import React, {useState, useContext} from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import TextField from '@mui/material/TextField'
 import Button from '../components/Button'
 import Box from '@mui/material/Box'
+import useRegister from '../hooks/useRegister'
+import useEdit from '../hooks/useEdit'
+import { AppContext } from '../context/AppContext'
+import Error from '../components/Error'
 
 
 
@@ -28,7 +32,8 @@ const FormSchema = Yup.object(
 
 // initial values for the form
 // registering the user
-export default function RegisterForm({user}) {
+export default function RegisterForm() {
+    const {user} = useContext(AppContext)
 
     const initialValues={
         first_name:user?user.first_name: '',
@@ -37,14 +42,23 @@ export default function RegisterForm({user}) {
         password:user?user.password: '',
         confirm_password:user?user.confirm_password: ''
     }
+
+    const[registerInfo, setRegisterInfo] = useState({})
+    const[userEdit, setUserEdit] = useState({})
+    const [error, setError] = useState('')
+
+    useRegister(registerInfo, setRegisterInfo, setError)
+    useEdit(userEdit, setUserEdit)
     // what happens on submit
     const handleSubmit=(values)=>{
         console.log(values)
+        if(user){
+            setUserEdit(values)
+        }else{
+            setRegisterInfo(values)
+        }
     }
-    // what happens when on delete
-    const handleDelete=(values)=>{
-        console.log('Deleted', user.first_name)
-    }
+   
 
     // creating the formik hook and transforming the values into the user object
     const formik = useFormik({
@@ -122,7 +136,8 @@ export default function RegisterForm({user}) {
                 helperText={formik.touched.confirm_password && formik.errors.confirm_password}
             />
             
-            <Button type="submit">{user?'Update':'Register'}</Button>
+            <Button type="submit">{user?.token? 'Update':'Register'}</Button>
+            <Error>{error}</Error>
         </Box>
     </form>
   )
